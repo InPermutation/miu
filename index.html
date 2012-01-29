@@ -1,0 +1,49 @@
+<html><head><title>miu</title></head>
+	<body>
+	<script>
+		var theorems = ['MI']; // Axiom
+
+		var visited = [];
+		var unvisited = ['MI'];
+
+		function find(theorem){
+			theorems.push(theorem);
+			if(!visited[theorem])
+				unvisited.push(theorem);
+		}
+		function I(cur){
+			if(/I$/.test(cur))
+				find(cur+'U');
+		}
+		function II(cur){
+			var x= cur.substr(1);
+			find("M" + x + x);
+		}
+		function III(cur){
+			for(var i=1; i<cur.length-2; i++)
+			{
+				if(cur.substr(i, 3) == "III")
+					find(cur.substr(0, i) + "U" + cur.substr(i+3));	
+			}
+		}
+		function IV(cur){
+			for(var i=1;i<cur.length;i++)
+			{
+				if(cur.substr(i,2) == "UU")
+					find(cur.substr(0,i)+cur.substr(i+2));
+			}
+		}
+
+		function visit(){
+			var cur = unvisited.shift();
+			visited[cur] = true;
+
+			I(cur);
+			II(cur);
+			III(cur);
+			IV(cur);
+		}
+
+	</script>
+	</body>
+</html>
